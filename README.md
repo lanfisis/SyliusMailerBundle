@@ -6,12 +6,16 @@ SyliusMailerBundle
 Sylius
 ------
 
-**Sylius** - Modern ecommerce for Symfony. Visit [sylius.org](https://sylius.com).
+**Sylius** - Modern ecommerce for Symfony. Visit [sylius.com](https://sylius.com).
 
 Sylius
 ------
 
-![Sylius](https://demo.sylius.com/assets/shop/img/logo.png)
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="https://media.sylius.com/sylius-logo-800-dark.png">
+          <source media="(prefers-color-scheme: light)" srcset="https://media.sylius.com/sylius-logo-800.png">
+          <img alt="Sylius Logo." src="https://media.sylius.com/sylius-logo-800.png">
+        </picture>
 
 Sylius is an Open Source eCommerce solution built from decoupled components with powerful API and the highest quality code. [Read more on sylius.com](https://sylius.com).
 
