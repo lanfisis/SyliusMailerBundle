@@ -22,6 +22,7 @@ use Sylius\Component\Mailer\SyliusMailerEvents;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
+use Webmozart\Assert\Assert;
 
 final class SymfonyMailerAdapter extends AbstractAdapter implements CcAwareAdapterInterface
 {
@@ -92,6 +93,9 @@ final class SymfonyMailerAdapter extends AbstractAdapter implements CcAwareAdapt
         array $ccRecipients = [],
         array $bccRecipients = [],
     ): void {
+        Assert::allStringNotEmpty($recipients);
+        Assert::allStringNotEmpty($replyTo);
+
         $message = (new Email())
             ->subject($renderedEmail->getSubject())
             ->from(new Address($senderAddress, $senderName))
