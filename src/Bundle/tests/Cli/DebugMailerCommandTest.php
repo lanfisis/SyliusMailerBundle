@@ -60,7 +60,7 @@ final class DebugMailerCommandTest extends KernelTestCase
     /** @test */
     public function it_shows_configured_email_details(): void
     {
-        $this->commandTester->execute(['email' => 'test_email_with_data']);
+        $this->commandTester->execute(['codeOfEmail' => 'test_email_with_data']);
         $this->commandTester->assertCommandIsSuccessful();
 
         $output = $this->commandTester->getDisplay();

@@ -11,17 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Sylius\Bundle\MailerBundle\Cli;
+namespace Sylius\Bundle\MailerBundle\Console\Command;
 
-use Sylius\Bundle\MailerBundle\Cli\Dumper\DumperInterface;
-use Sylius\Bundle\MailerBundle\Cli\Dumper\EmailDetailDumperInterface;
+use Sylius\Bundle\MailerBundle\Console\Command\Dumper\DumperInterface;
+use Sylius\Bundle\MailerBundle\Console\Command\Dumper\EmailDetailDumperInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Webmozart\Assert\Assert;
 
-#[AsCommand(name: 'sylius:debug:mailer', description: 'Shows configured emails and sender data')]
+#[AsCommand(name: 'sylius:debug:mailer', description: 'Debug email messages')]
 final class DebugMailerCommand extends Command
 {
     public function __construct(
@@ -34,12 +35,12 @@ final class DebugMailerCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('email', InputArgument::OPTIONAL, 'Email to be shown');
+        $this->addArgument('codeOfEmail', InputArgument::OPTIONAL, 'Expected email to be shown identified by its code');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->getArgument('email') === null) {
+        if ($input->getArgument('codeOfEmail') === null) {
             return $this->dumpAllEmails($input, $output);
         }
 
@@ -57,9 +58,11 @@ final class DebugMailerCommand extends Command
 
     private function dumpEmailDetails(InputInterface $input, OutputInterface $output): int
     {
-        /** @var string $email */
-        $email = $input->getArgument('email');
-        $this->emailDetailDumper->dump($input, $output, $email);
+        $codeOfEmail = $input->getArgument('codeOfEmail');
+
+        Assert::string($codeOfEmail);
+
+        $this->emailDetailDumper->dump($codeOfEmail, $input, $output);
 
         return Command::SUCCESS;
     }
