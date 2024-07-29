@@ -40,17 +40,27 @@ final class DebugMailerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getArgument('email') === null) {
-            foreach ($this->dumpers as $dumper) {
-                $dumper->dump($input, $output);
-            }
-
-            return 0;
+            return $this->dumpAllEmails($input, $output);
         }
 
+        return $this->dumpEmailDetails($input, $output);
+    }
+
+    private function dumpAllEmails(InputInterface $input, OutputInterface $output): int
+    {
+        foreach ($this->dumpers as $dumper) {
+            $dumper->dump($input, $output);
+        }
+
+        return Command::SUCCESS;
+    }
+
+    private function dumpEmailDetails(InputInterface $input, OutputInterface $output): int
+    {
         /** @var string $email */
         $email = $input->getArgument('email');
         $this->emailDetailDumper->dump($input, $output, $email);
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
